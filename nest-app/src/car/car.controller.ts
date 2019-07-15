@@ -1,18 +1,22 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { CarService } from './car.service';
+import { CreateCarDto } from './dto/create-car.dto';
+import { Car } from './interfaces/car.interface';
 
 @Controller('car')
 export class CarController {
     // url/car/123?queryModel={}
     // 123: param
     // queryModel: query
+    constructor(private readonly carService: CarService) { }
 
-    @Get() // get all cars
-    getCollection(@Query('queryModel') queryModel) {
-        return [{ name: 'test1' }, { name: 'test2' }];
+    @Post()
+    async create(@Body() createCatDto: CreateCarDto) {
+        this.carService.create(createCatDto);
     }
 
-    @Get(':id') // get a car find by id
-    getItemById(@Param('id') id: string, @Query('includes') includes) {
-        return { id, includes };
+    @Get()
+    async findAll(): Promise<Car[]> {
+        return this.carService.findAll();
     }
 }
