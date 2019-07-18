@@ -1,5 +1,5 @@
 <div class="car-list-wrapper">
-  <mat-grid-list cols="4" rowHeight="200" gutterSize="10">
+  <mat-grid-list [cols]="cols" rowHeight="200" gutterSize="10" (window:resize)="onResize()">
     <mat-grid-tile>
       <img src="assets/images/perodua-viva.jpg" alt="">
       <div class="info">
