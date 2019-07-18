@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingCarListComponent implements OnInit {
   cols = 4;
+  smallSize = false;
   constructor() { }
 
   ngOnInit() {
@@ -16,12 +17,16 @@ export class LandingCarListComponent implements OnInit {
   onResize() {
     if (window.innerWidth <= 425) {
       this.cols = 1;
+      this.smallSize = true;
     } else if (window.innerWidth <= 768) {
       this.cols = 2;
+      this.smallSize = true;
     } else if (window.innerWidth <= 1024) {
       this.cols = 3;
+      this.smallSize = false;
     } else {
       this.cols = 4;
+      this.smallSize = false;
     }
   }
 

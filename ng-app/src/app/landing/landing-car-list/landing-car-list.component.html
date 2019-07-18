@@ -2,7 +2,7 @@
   <mat-grid-list [cols]="cols" rowHeight="200" gutterSize="10" (window:resize)="onResize()">
     <mat-grid-tile>
       <img src="assets/images/perodua-viva.jpg" alt="">
-      <div class="info">
+      <div class="info" [ngClass]="{'show': smallSize}">
         <span>Perodua Viva</span>
         <div class="btn-group">
           <button mat-raised-button>Book Now</button>
@@ -12,8 +12,8 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <img src="assets/images/saga_lrg.jpg" alt="">
-      <div class="info">
-        <span>Perodua Viva</span>
+      <div class="info" [ngClass]="{'show': smallSize}">
+        <span>Perodua Saga</span>
         <div class="btn-group">
           <button mat-raised-button>Book Now</button>
           <button mat-raised-button>View More</button>
@@ -22,8 +22,8 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <img src="assets/images/bezza_lrg.jpg" alt="">
-      <div class="info">
-        <span>Perodua Viva</span>
+      <div class="info" [ngClass]="{'show': smallSize}">
+        <span>Perodua Bezza</span>
         <div class="btn-group">
           <button mat-raised-button>Book Now</button>
           <button mat-raised-button>View More</button>
@@ -32,8 +32,8 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <img src="assets/images/city_lrg.jpg" alt="">
-      <div class="info">
-        <span>Perodua Viva</span>
+      <div class="info" [ngClass]="{'show': smallSize}">
+        <span>Honda City</span>
         <div class="btn-group">
           <button mat-raised-button>Book Now</button>
           <button mat-raised-button>View More</button>
