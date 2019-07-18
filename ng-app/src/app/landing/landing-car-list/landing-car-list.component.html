@@ -5,7 +5,7 @@
       <div class="info" [ngClass]="{'show': smallSize}">
         <span>{{ car.brand + ' ' + car.model }}</span>
         <div class="btn-group">
-          <button mat-raised-button color="primary">Book Now</button>
+          <button mat-raised-button color="primary" (click)="onBookCar(car)">Book Now</button>
           <button mat-raised-button>View More</button>
         </div>
       </div>

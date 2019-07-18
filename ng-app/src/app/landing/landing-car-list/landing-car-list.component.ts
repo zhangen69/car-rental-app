@@ -1,4 +1,7 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LandingBookCarComponent } from './../landing-book-car/landing-book-car.component';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-landing-car-list',
@@ -9,10 +12,26 @@ export class LandingCarListComponent implements OnInit {
   cols = 4;
   smallSize = false;
   cars = JSON.parse(localStorage.getItem('cars'));
-  constructor() { }
+  constructor(private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.onResize();
+  }
+
+  onBookCar(car) {
+    const dialogRef = this.dialog.open(LandingBookCarComponent, {
+      width: 'auto',
+      minWidth: '50vw',
+      maxHeight: '99vh',
+      data: car
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result.success) {
+        this.snackbar.open('Booked car successfully!');
+      }
+    });
   }
 
   onResize() {

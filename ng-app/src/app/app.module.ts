@@ -36,6 +36,8 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
+import { LandingBookCarComponent } from './landing/landing-book-car/landing-book-car.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import {MatTableModule} from '@angular/material/table';
     LoginComponent,
     LandingLoginComponent,
     LandingRegisterComponent,
+    LandingBookCarComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,9 +85,13 @@ import {MatTableModule} from '@angular/material/table';
     MatGridListModule,
     MatAutocompleteModule,
     MatTableModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
+  ],
+  entryComponents: [
+    LandingBookCarComponent
   ],
   bootstrap: [AppComponent]
 })
