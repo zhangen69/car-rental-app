@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./car-list.component.sass']
 })
 export class CarListComponent implements OnInit {
-
+  displayedColumns = ['brand', 'model', 'carNumber', 'color', 'action'];
+  dataSource = JSON.parse(localStorage.getItem('cars'));
   constructor() { }
 
   ngOnInit() {

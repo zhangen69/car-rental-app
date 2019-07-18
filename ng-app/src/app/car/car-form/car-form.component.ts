@@ -1,7 +1,9 @@
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import * as uuid from 'uuid';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { filter, find, map, tap, mapTo } from 'rxjs/operators';
 
 @Component({
   selector: 'app-car-form',
@@ -10,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CarFormComponent implements OnInit {
   formData = this.formBuilder.group({
+    id: null,
     model: ['', Validators.required],
     brand: ['', Validators.required],
     carNumber: ['', Validators.required],
@@ -19,9 +22,14 @@ export class CarFormComponent implements OnInit {
     roadTax: ['', Validators.required],
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      const cars = JSON.parse(localStorage.getItem('cars'));
+      const car = cars.find((item) => item.id === params.id);
+      this.formData.patchValue(car);
+    });
   }
 
   onSubmit(formData) {
@@ -31,13 +39,19 @@ export class CarFormComponent implements OnInit {
       cars = [];
     }
 
-    const data = {...formData};
-    data.id = uuid.v4();
+    const data = { ...formData };
 
-    cars.push(data);
+    if (data.id) {
+      // update
+      const car = cars.find((item) => item.id === data.id);
+      Object.keys(car).forEach(key => car[key] = data[key]);
+    } else {
+      // create
+      data.id = uuid.v4();
+      cars.push(data);
+    }
 
     localStorage.setItem('cars', JSON.stringify(cars));
-
     this.router.navigateByUrl('/admin/car/list');
   }
 
