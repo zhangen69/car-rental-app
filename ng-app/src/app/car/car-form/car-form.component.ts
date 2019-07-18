@@ -1,6 +1,7 @@
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import * as uuid from 'uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-car-form',
@@ -18,7 +19,7 @@ export class CarFormComponent implements OnInit {
     roadTax: ['', Validators.required],
   });
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
   }
@@ -37,6 +38,7 @@ export class CarFormComponent implements OnInit {
 
     localStorage.setItem('cars', JSON.stringify(cars));
 
+    this.router.navigateByUrl('/admin/car/list');
   }
 
 }
