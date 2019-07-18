@@ -21,7 +21,12 @@ export class AppComponent {
     { name: 'Car List', url: '/car/list' },
     { name: 'Booking List', url: '/booking/list' },
   ];
-  adminPanelRoutes = [];
+  adminPanelRoutes = [
+    { name: 'New Car', url: '/admin/car/add' },
+    { name: 'Car List', url: '/admin/car/list' },
+    { name: 'New Booking', url: '/admin/booking/add' },
+    { name: 'Booking List', url: '/admin/booking/list' },
+  ];
 
   private _mobileQueryListener: () => void;
   private authListenerSubs: Subscription;

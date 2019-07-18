@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, of, iif } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { PageLoaderService } from '../page-loader/page-loader.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,44 +23,76 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
+    private snackbar: MatSnackBar,
     private pageLoaderService: PageLoaderService
-  ) {}
+  ) { }
 
   register(formData) {
     this.http.post(this.apiUrl + '/register', formData).subscribe(
       (res: any) => {
-        this.toastr.success(res.message);
+        this.snackbar.open(res.message, 'Dismiss');
         this.router.navigate([this.loginPagePath]);
       },
       (res: any) => {
-        this.toastr.error(res.error.message);
+        this.snackbar.open(res.error.message, 'Dismiss');
       }
     );
   }
 
   login(formData) {
     this.pageLoaderService.toggle(true);
-    this.http.post(this.apiUrl + '/login', formData).subscribe(
+
+    // mockup data
+    const loginSuccessResult = of({ status: 200, message: 'Logged In', expiresIn: 86400000 });
+    const loginFailedResult = of({ status: 500, message: 'Username or Password is incorrect.' });
+    const login = of(formData).pipe(
+      mergeMap(({ username, password }) => iif(() =>
+        (username === 'admin') && (password === 'admin123'),
+        loginSuccessResult,
+        loginFailedResult))
+    );
+    login.subscribe(
       (res: any) => {
         this.pageLoaderService.toggle(false);
-        this.token = res.token;
-        this.isAuth = true;
-        if (this.token) {
+        if (res.status === 200) {
+          this.isAuth = true;
           const expiresIn = res.expiresIn;
           this.setAuthTimer(expiresIn);
           this.authStatusListerner.next(true);
           const now = new Date();
           const expiration = new Date(now.getTime() + expiresIn);
-          this.saveAuthData(this.token, expiration);
-          this.toastr.success(res.message);
+          this.saveAuthData(expiration);
+          this.snackbar.open(res.message, 'Dismiss');
           this.router.navigate(['/']);
+        } else if (res.status === 500) {
+          this.snackbar.open(res.message, 'Dismiss');
         }
       },
       (res: any) => {
         this.pageLoaderService.toggle(false);
-        this.toastr.error(res.error.message);
-      }
-    );
+        this.snackbar.open(res.error.message, 'Dismiss');
+      });
+    // this.http.post(this.apiUrl + '/login', formData).subscribe(
+    //   (res: any) => {
+    //     this.pageLoaderService.toggle(false);
+    //     this.token = res.token;
+    //     this.isAuth = true;
+    //     if (this.token) {
+    //       const expiresIn = res.expiresIn;
+    //       this.setAuthTimer(expiresIn);
+    //       this.authStatusListerner.next(true);
+    //       const now = new Date();
+    //       const expiration = new Date(now.getTime() + expiresIn);
+    //       this.saveAuthData(this.token, expiration);
+    //       this.toastr.success(res.message);
+    //       this.router.navigate(['/']);
+    //     }
+    //   },
+    //   (res: any) => {
+    //     this.pageLoaderService.toggle(false);
+    //     this.toastr.error(res.error.message);
+    //   }
+    // );
   }
 
   forgotPassword(model) {
@@ -72,11 +106,11 @@ export class AuthService {
   resetPassword(model) {
     this.http.post(this.apiUrl + '/resetPassword', model).subscribe(
       (res: any) => {
-        this.toastr.success(res.message);
+        this.snackbar.open(res.message, 'Dismiss');
         this.router.navigate([this.loginPagePath]);
       },
       (res: any) => {
-        this.toastr.error(res.error.message);
+        this.snackbar.open(res.error.message, 'Dismiss');
       }
     );
   }
@@ -99,12 +133,11 @@ export class AuthService {
   }
 
   logout() {
-    this.token = null;
     this.isAuth = false;
     this.authStatusListerner.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.toastr.info('Logged Out!');
+    this.snackbar.open('Logged Out!', 'Dismiss');
     this.router.navigate(['/']);
   }
 
@@ -119,7 +152,6 @@ export class AuthService {
     const expiresIn = data.expiration.getTime() - now.getTime();
 
     if (expiresIn > 0) {
-      this.token = data.token;
       this.isAuth = true;
       this.setAuthTimer(expiresIn);
       this.authStatusListerner.next(true);
@@ -132,23 +164,20 @@ export class AuthService {
     }, duration);
   }
 
-  private saveAuthData(token: string, expirationDate: Date) {
-    localStorage.setItem('token', token);
+  private saveAuthData(expirationDate: Date) {
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
   private clearAuthData() {
-    localStorage.removeItem('token');
     localStorage.removeItem('expiration');
   }
 
   private getAuthData() {
-    const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
-    if (!token || !expiration) {
+    if (!expiration) {
       return;
     }
 
-    return { token, expiration: new Date(expiration) };
+    return { expiration: new Date(expiration) };
   }
 }

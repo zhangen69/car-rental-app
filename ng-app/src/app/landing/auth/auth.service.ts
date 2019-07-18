@@ -56,19 +56,20 @@ export class LandingAuthService {
     login.subscribe(
       (res: any) => {
         this.pageLoaderService.toggle(false);
-        // this.token = res.token;
-        this.isAuth = true;
-        // if (this.token) {
-        const expiresIn = res.expiresIn;
-        this.setAuthTimer(expiresIn);
-        this.authStatusListerner.next(true);
-        const now = new Date();
-        const expiration = new Date(now.getTime() + expiresIn);
-        this.saveAuthData(expiration);
-        // this.toastr.success(res.message);
-        this.snackbar.open(res.message, 'Dismiss');
-        this.router.navigate(['/']);
-        // }
+        if (res.status === 200) {
+          this.isAuth = true;
+          const expiresIn = res.expiresIn;
+          this.setAuthTimer(expiresIn);
+          this.authStatusListerner.next(true);
+          const now = new Date();
+          const expiration = new Date(now.getTime() + expiresIn);
+          this.saveAuthData(expiration);
+          this.snackbar.open(res.message, 'Dismiss');
+          this.router.navigate(['/']);
+        } else if (res.status === 500) {
+          this.snackbar.open(res.message, 'Dismiss');
+        }
+
       },
       (res: any) => {
         this.pageLoaderService.toggle(false);

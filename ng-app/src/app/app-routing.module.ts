@@ -10,6 +10,8 @@ import { LandingViewBookingComponent } from './landing/landing-view-booking/land
 import { LoginComponent } from './auth/login/login.component';
 import { LandingRegisterComponent } from './landing/auth/register/register.component';
 import { LandingLoginComponent } from './landing/auth/login/login.component';
+import { BookingFormComponent } from './booking/booking-form/booking-form.component';
+import { BookingListComponent } from './booking/booking-list/booking-list.component';
 
 const routes: Routes = [
   {
@@ -18,8 +20,17 @@ const routes: Routes = [
       {
         path: 'car',
         children: [
-          { path: 'form', component: CarFormComponent },
-          { path: 'list', component: CarListComponent }
+          { path: 'add', component: CarFormComponent },
+          { path: 'list', component: CarListComponent },
+          { path: 'edit/:id', component: CarFormComponent },
+        ]
+      },
+      {
+        path: 'booking',
+        children: [
+          { path: 'add', component: BookingFormComponent },
+          { path: 'list', component: BookingListComponent },
+          { path: 'edit/:id', component: BookingFormComponent },
         ]
       },
       {
@@ -61,4 +72,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
