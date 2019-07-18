@@ -151,7 +151,7 @@ export class LandingAuthService {
   autoAuthUser() {
     const data = this.getAuthData();
 
-    if (!data) {
+    if (!data || data.login !== 'customer') {
       return;
     }
 
@@ -174,21 +174,24 @@ export class LandingAuthService {
 
   private saveAuthData(expirationDate: Date) {
     // localStorage.setItem('token', token);
+    localStorage.setItem('login', 'customer');
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
   private clearAuthData() {
     // localStorage.removeItem('token');
+    localStorage.removeItem('login');
     localStorage.removeItem('expiration');
   }
 
   private getAuthData() {
     // const token = localStorage.getItem('token');
+    const login = localStorage.getItem('login');
     const expiration = localStorage.getItem('expiration');
     if (!expiration) {
       return;
     }
 
-    return { expiration: new Date(expiration) };
+    return { login, expiration: new Date(expiration) };
   }
 }

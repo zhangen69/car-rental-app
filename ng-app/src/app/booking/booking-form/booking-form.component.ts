@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import * as uuid from 'uuid';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -12,18 +12,27 @@ import * as moment from 'moment';
 export class BookingFormComponent implements OnInit {
   now = moment().format('YYYY-MM-DD');
   formData = this.formBuilder.group({
+    id: null,
     dateFrom: [this.now, Validators.required],
     dateTo: [this.now, Validators.required],
     car: ['', Validators.required],
     customer: ['', Validators.required],
-    remarks: ['', Validators.required]
+    remarks: ['']
   });
   cars = JSON.parse(localStorage.getItem('cars')) || [];
   customers = JSON.parse(localStorage.getItem('customers')) || [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params.id) {
+        const list = JSON.parse(localStorage.getItem('bookings'));
+        const data = list.find((item) => item.id === params.id);
+        this.formData.patchValue(data);
+      }
+    });
+  }
 
   customerDisplayFn(data) {
     return data.name;
@@ -34,19 +43,25 @@ export class BookingFormComponent implements OnInit {
   }
 
   onSubmit(formData) {
-    let bookings = JSON.parse(localStorage.getItem('bookings'));
+    let list = JSON.parse(localStorage.getItem('bookings'));
 
-    if (bookings === null) {
-      bookings = [];
+    if (list === null) {
+      list = [];
     }
 
     const data = { ...formData };
-    data.id = uuid.v4();
 
-    bookings.push(data);
+    if (data.id) {
+      // update
+      const item = list.find((listItem) => listItem.id === data.id);
+      Object.keys(data).forEach(key => item[key] = data[key]);
+    } else {
+      // create
+      data.id = uuid.v4();
+      list.push(data);
+    }
 
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-
+    localStorage.setItem('bookings', JSON.stringify(list));
     this.router.navigateByUrl('/admin/booking/list');
   }
 }

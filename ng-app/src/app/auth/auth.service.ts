@@ -144,7 +144,7 @@ export class AuthService {
   autoAuthUser() {
     const data = this.getAuthData();
 
-    if (!data) {
+    if (!data || data.login !== 'admin') {
       return;
     }
 
@@ -165,19 +165,22 @@ export class AuthService {
   }
 
   private saveAuthData(expirationDate: Date) {
+    localStorage.setItem('login', 'admin');
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
   private clearAuthData() {
+    localStorage.removeItem('login');
     localStorage.removeItem('expiration');
   }
 
   private getAuthData() {
+    const login = localStorage.getItem('login');
     const expiration = localStorage.getItem('expiration');
     if (!expiration) {
       return;
     }
 
-    return { expiration: new Date(expiration) };
+    return { login, expiration: new Date(expiration) };
   }
 }

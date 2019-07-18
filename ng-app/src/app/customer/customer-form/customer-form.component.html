@@ -1,1 +1,31 @@
-<p>customer-form works!</p>
+<mat-card class="mat-elevation-z2 card-md">
+  <mat-card-header>
+    <mat-card-title>Customer</mat-card-title>
+    <mat-card-subtitle>Please fill-in all the required fields marked with asterisks
+      (*).</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="formData" id="form" (ngSubmit)="formData.valid && onSubmit(formData.value)">
+      <mat-form-field>
+        <input type="text" matInput formControlName="name" placeholder="Enter Name" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="text" matInput formControlName="contact" placeholder="Enter Contact No." required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="text" matInput formControlName="identityCode" placeholder="Enter I/C" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput formControlName="remarks" placeholder="Enter Remarks" />
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" type="submit" form="form">
+      <mat-icon>done</mat-icon> Login
+    </button>
+  </mat-card-actions>
+</mat-card>

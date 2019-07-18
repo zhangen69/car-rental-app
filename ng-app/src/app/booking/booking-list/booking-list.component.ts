@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./booking-list.component.sass']
 })
 export class BookingListComponent implements OnInit {
-  bookings = JSON.parse(localStorage.getItem('bookings'));
+  displayedColumns = ['dateFrom', 'dateTo', 'car', 'customer', 'action'];
+  dataSource = JSON.parse(localStorage.getItem('bookings'));
 
   constructor() { }
 

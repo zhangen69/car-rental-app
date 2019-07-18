@@ -1,3 +1,4 @@
+import { CustomerListComponent } from './customer/customer-list/customer-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CarFormComponent } from './car/car-form/car-form.component';
@@ -13,6 +14,7 @@ import { LandingLoginComponent } from './landing/auth/login/login.component';
 import { BookingFormComponent } from './booking/booking-form/booking-form.component';
 import { BookingListComponent } from './booking/booking-list/booking-list.component';
 import { HomeComponent } from './home/home.component';
+import { CustomerFormComponent } from './customer/customer-form/customer-form.component';
 
 const routes: Routes = [
   {
@@ -33,6 +35,14 @@ const routes: Routes = [
           { path: 'add', component: BookingFormComponent },
           { path: 'list', component: BookingListComponent },
           { path: 'edit/:id', component: BookingFormComponent },
+        ]
+      },
+      {
+        path: 'customer',
+        children: [
+          { path: 'add', component: CustomerFormComponent },
+          { path: 'list', component: CustomerListComponent },
+          { path: 'edit/:id', component: CustomerFormComponent },
         ]
       },
       {

@@ -26,6 +26,8 @@ export class AppComponent {
     { name: 'Car List', url: '/admin/car/list' },
     { name: 'New Booking', url: '/admin/booking/add' },
     { name: 'Booking List', url: '/admin/booking/list' },
+    { name: 'New Customer', url: '/admin/customer/add' },
+    { name: 'Customer List', url: '/admin/customer/list' },
   ];
 
   private _mobileQueryListener: () => void;

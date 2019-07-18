@@ -10,7 +10,7 @@
     <form
       [formGroup]="formData"
       id="form"
-      (ngSubmit)="onSubmit(formData.valid && formData.value)"
+      (ngSubmit)="formData.valid && onSubmit(formData.value)"
     >
       <mat-form-field>
         <input
@@ -73,7 +73,6 @@
           matInput
           formControlName="remarks"
           placeholder="Enter Remarks"
-          required
         />
       </mat-form-field>
     </form>

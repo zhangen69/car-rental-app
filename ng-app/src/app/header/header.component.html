@@ -4,7 +4,8 @@
   </button>
 
   <span class="logo" routerLink="/">CRS</span>
-
+  <!-- <pre>Admin: {{adminIsAuth}}</pre>
+  <pre>Customer: {{isAuth}}</pre> -->
   <ng-container *ngIf="!isAuth && !adminIsAuth">
       <a routerLink="/auth/login" mat-button *ngIf="!isAuth && !adminIsAuth">Login</a>
       <a routerLink="/auth/register" mat-button *ngIf="!isAuth && !adminIsAuth">Register</a>
