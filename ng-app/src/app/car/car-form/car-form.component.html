@@ -1,22 +1,37 @@
 <mat-card class="mat-elevation-z2 card-md">
   <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
+    <mat-card-title>Car</mat-card-title>
     <mat-card-subtitle>Please fill-in all the required fields marked with asterisks (*).</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <form [formGroup]="formData" id="form" (ngSubmit)="onSubmit(formData.valid && formData.value)">
       <mat-form-field>
-        <input matInput formControlName="username" placeholder="Username" required autofocus />
+        <input matInput formControlName="model" placeholder="Enter Car Model" required />
       </mat-form-field>
       <mat-form-field>
-        <input type="password" matInput formControlName="password" placeholder="Password" required />
+        <input matInput formControlName="brand" placeholder="Enter Car Brand" required />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="carNumber" placeholder="Enter Car Number" required />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="color" placeholder="Enter Car Color" required />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="photo" placeholder="Enter Car Photo URL" required />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="insurance" placeholder="Enter Car Insurance" required />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="roadTax" placeholder="Enter Car Road Tax" required />
       </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-actions>
 
-    <button mat-raised-button color="primary" type="submit" form="form"><mat-icon>done</mat-icon> Login</button>
+    <button mat-raised-button color="primary" type="submit" form="form">
+      <mat-icon>done</mat-icon> Login
+    </button>
   </mat-card-actions>
 </mat-card>
-
-
