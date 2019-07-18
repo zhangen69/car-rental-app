@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer-list.component.sass']
 })
 export class CustomerListComponent implements OnInit {
+  displayedColumns = ['name', 'contact', 'identityCode', 'action'];
+  dataSource = JSON.parse(localStorage.getItem('customers'));
 
   constructor() { }
 
