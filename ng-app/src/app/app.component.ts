@@ -75,5 +75,6 @@ export class AppComponent {
     } else if (this.adminIsAuth) {
       this.authService.logout();
     }
+    this.routes = [];
   }
 }

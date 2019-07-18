@@ -1,35 +1,84 @@
 <mat-card class="mat-elevation-z2 card-md">
   <mat-card-header>
     <mat-card-title>Booking</mat-card-title>
-    <mat-card-subtitle>Please fill-in all the required fields marked with asterisks (*).</mat-card-subtitle>
+    <mat-card-subtitle
+      >Please fill-in all the required fields marked with asterisks
+      (*).</mat-card-subtitle
+    >
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="formData" id="form" (ngSubmit)="onSubmit(formData.valid && formData.value)">
+    <form
+      [formGroup]="formData"
+      id="form"
+      (ngSubmit)="onSubmit(formData.valid && formData.value)"
+    >
       <mat-form-field>
-        <input matInput formControlName="model" placeholder="Enter Car Model" required />
+        <input
+          type="date"
+          matInput
+          formControlName="dateFrom"
+          placeholder="Enter Date From"
+          required
+        />
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="brand" placeholder="Enter Car Brand" required />
+        <input
+          type="date"
+          matInput
+          formControlName="dateTo"
+          placeholder="Enter Date To"
+          required
+        />
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="carNumber" placeholder="Enter Car Number" required />
+        <input
+          type="text"
+          matInput
+          formControlName="car"
+          placeholder="Select a Car"
+          required
+          [matAutocomplete]="carAutocomplete"
+        />
+
+        <mat-autocomplete
+          #carAutocomplete="matAutocomplete"
+          [displayWith]="carDisplayFn"
+        >
+          <mat-option *ngFor="let car of cars" [value]="car">{{
+            car.model
+          }}</mat-option>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="color" placeholder="Enter Car Color" required />
+        <input
+          type="text"
+          matInput
+          formControlName="customer"
+          placeholder="Select a Customer"
+          required
+          [matAutocomplete]="customerAutocomplete"
+        />
+
+        <mat-autocomplete
+          #customerAutocomplete="matAutocomplete"
+          [displayWith]="customerDisplayFn"
+        >
+          <mat-option *ngFor="let customer of customers" [value]="customer">{{
+            customer.name
+          }}</mat-option>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="photo" placeholder="Enter Car Photo URL" required />
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput formControlName="insurance" placeholder="Enter Car Insurance" required />
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput formControlName="roadTax" placeholder="Enter Car Road Tax" required />
+        <input
+          matInput
+          formControlName="remarks"
+          placeholder="Enter Remarks"
+          required
+        />
       </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-actions>
-
     <button mat-raised-button color="primary" type="submit" form="form">
       <mat-icon>done</mat-icon> Login
     </button>

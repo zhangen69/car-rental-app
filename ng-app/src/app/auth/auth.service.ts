@@ -63,7 +63,7 @@ export class AuthService {
           const expiration = new Date(now.getTime() + expiresIn);
           this.saveAuthData(expiration);
           this.snackbar.open(res.message, 'Dismiss');
-          this.router.navigate(['/']);
+          this.router.navigate(['/admin']);
         } else if (res.status === 500) {
           this.snackbar.open(res.message, 'Dismiss');
         }

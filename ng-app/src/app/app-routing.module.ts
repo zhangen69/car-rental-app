@@ -12,11 +12,13 @@ import { LandingRegisterComponent } from './landing/auth/register/register.compo
 import { LandingLoginComponent } from './landing/auth/login/login.component';
 import { BookingFormComponent } from './booking/booking-form/booking-form.component';
 import { BookingListComponent } from './booking/booking-list/booking-list.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: 'admin',
     children: [
+      { path: '', component: HomeComponent },
       {
         path: 'car',
         children: [
