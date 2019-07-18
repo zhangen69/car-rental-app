@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CarFormComponent } from './car/car-form/car-form.component';
@@ -11,13 +11,27 @@ import { LandingIndexComponent } from './landing/landing-index/landing-index.com
 import { LandingViewCarComponent } from './landing/landing-view-car/landing-view-car.component';
 import { LandingCarListComponent } from './landing/landing-car-list/landing-car-list.component';
 import { LandingViewBookingComponent } from './landing/landing-view-booking/landing-view-booking.component';
-import { LandingLoginComponent } from './landing/landing-login/landing-login.component';
-import { LandingRegisterComponent } from './landing/landing-register/landing-register.component';
 import { LandingBookingListComponent } from './landing/landing-booking-list/landing-booking-list.component';
 import { CustomerFormComponent } from './customer/customer-form/customer-form.component';
 import { CustomerListComponent } from './customer/customer-list/customer-list.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { PageLoaderComponent } from './page-loader/page-loader.component';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from './auth/login/login.component';
+import { MatButtonModule } from '@angular/material/button';
+import { LandingLoginComponent } from './landing/auth/login/login.component';
+import { LandingRegisterComponent } from './landing/auth/register/register.component';
+import { MatCardModule } from '@angular/material/card';
+import {MatInputModule} from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -30,19 +44,37 @@ import { HeaderComponent } from './header/header.component';
     LandingViewCarComponent,
     LandingCarListComponent,
     LandingViewBookingComponent,
-    LandingLoginComponent,
-    LandingRegisterComponent,
     LandingBookingListComponent,
     CustomerFormComponent,
     CustomerListComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    PageLoaderComponent,
+    LoginComponent,
+    LandingLoginComponent,
+    LandingRegisterComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+    }),
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
