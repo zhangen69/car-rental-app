@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { LandingAuthService } from './landing/auth/auth.service';
 import { AuthService } from './auth/auth.service';
 
 @Component({
@@ -10,15 +11,23 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
   title = 'ng-app';
-  isAuth = false;
+  isAuth = false; // for landing pages
+  adminIsAuth = false; // for admin panel
   sidenavOpened = true;
   mobileQuery: MediaQueryList;
   routes = [];
+  landingRoutes = [
+    { name: 'Home', url: '/' },
+    { name: 'Car List', url: '/car/list' },
+    { name: 'Booking List', url: '/booking/list' },
+  ];
+  adminPanelRoutes = [];
 
   private _mobileQueryListener: () => void;
   private authListenerSubs: Subscription;
 
   constructor(
+    private landingAuthService: LandingAuthService,
     private authService: AuthService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
@@ -26,16 +35,29 @@ export class AppComponent {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-    this.isAuth = this.authService.getIsAuth();
-    this.authListenerSubs = this.authService
+    this.adminIsAuth = this.authService.getIsAuth();
+    this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuth => {
+        this.adminIsAuth = isAuth;
+        if (this.adminIsAuth && this.routes.length === 0) {
+          this.routes = this.adminPanelRoutes;
+        }
+      });
+    this.isAuth = this.landingAuthService.getIsAuth();
+    this.landingAuthService
       .getAuthStatusListener()
       .subscribe(isAuth => {
         this.isAuth = isAuth;
+        if (this.isAuth && this.routes.length === 0) {
+          this.routes = this.landingRoutes;
+        }
       });
   }
 
   ngOnInit() {
     this.authService.autoAuthUser();
+    this.landingAuthService.autoAuthUser();
   }
 
   ngOnDestroy(): void {
@@ -43,6 +65,10 @@ export class AppComponent {
   }
 
   onLogout() {
-    this.authService.logout();
+    if (this.isAuth) {
+      this.landingAuthService.logout();
+    } else if (this.adminIsAuth) {
+      this.authService.logout();
+    }
   }
 }

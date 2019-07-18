@@ -1,12 +1,12 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button (click)="navToggle.emit()" *ngIf="isAuth">
+  <button mat-icon-button (click)="navToggle.emit()" *ngIf="isAuth || adminIsAuth">
     <mat-icon>menu</mat-icon>
   </button>
 
   <span class="logo" routerLink="/">CRS</span>
 
-  <ng-container *ngIf="!isAuth">
-      <a routerLink="/auth/login" mat-button *ngIf="!isAuth">Login</a>
-      <a routerLink="/auth/register" mat-button *ngIf="!isAuth">Register</a>
+  <ng-container *ngIf="!isAuth && !adminIsAuth">
+      <a routerLink="/auth/login" mat-button *ngIf="!isAuth && !adminIsAuth">Login</a>
+      <a routerLink="/auth/register" mat-button *ngIf="!isAuth && !adminIsAuth">Register</a>
     </ng-container>
 </mat-toolbar>

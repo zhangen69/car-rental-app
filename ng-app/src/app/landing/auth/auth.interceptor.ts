@@ -1,10 +1,10 @@
 import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
+import { LandingAuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: LandingAuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const token = this.authService.getToken();

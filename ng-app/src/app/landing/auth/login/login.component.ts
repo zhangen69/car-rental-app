@@ -1,4 +1,4 @@
-import { AuthService } from '../auth.service';
+import { LandingAuthService } from '../auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -13,7 +13,7 @@ export class LandingLoginComponent implements OnInit {
     password: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private authService: LandingAuthService) { }
 
   ngOnInit() {
   }

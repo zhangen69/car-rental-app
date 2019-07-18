@@ -1,3 +1,4 @@
+import { LandingAuthService } from '../landing/auth/auth.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
@@ -9,12 +10,17 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent implements OnInit {
   @Output() navToggle = new EventEmitter<any>();
   isAuth = false;
-  constructor(private authService: AuthService) {}
+  adminIsAuth = false;
+  constructor(private authService: AuthService, private landingAuthService: LandingAuthService) { }
 
   ngOnInit() {
-    this.isAuth = this.authService.getIsAuth();
-    this.authService.getAuthStatusListener().subscribe(isAuth => {
+    this.isAuth = this.landingAuthService.getIsAuth();
+    this.landingAuthService.getAuthStatusListener().subscribe(isAuth => {
       this.isAuth = isAuth;
+    });
+    this.adminIsAuth = this.authService.getIsAuth();
+    this.authService.getAuthStatusListener().subscribe(isAuth => {
+      this.adminIsAuth = isAuth;
     });
   }
 }

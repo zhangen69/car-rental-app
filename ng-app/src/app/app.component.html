@@ -2,12 +2,12 @@
 <app-page-loader></app-page-loader>
 <div class="main-content">
   <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
-    [ngClass]="{'is-auth': isAuth, 'is-opened': sidenavOpened}">
+    [ngClass]="{'is-auth': isAuth || adminIsAuth, 'is-opened': sidenavOpened}">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56" [(opened)]="sidenavOpened">
       <div class="mat-drawer-inner-container">
         <mat-nav-list>
-          <ng-container *ngIf="isAuth">
+          <ng-container *ngIf="isAuth || adminIsAuth">
             <div class="sidenav-list-item" *ngFor="let route of routes">
                 <a mat-list-item [routerLink]="route.url" routerLinkActive="mat-primary" (click)="route.opened = !route.opened">
                   {{ route.name }}
