@@ -6,10 +6,10 @@
   <mat-card-content>
     <form [formGroup]="formData" id="form" (ngSubmit)="formData.valid && onSubmit(formData.value)">
       <mat-form-field>
-        <input matInput formControlName="model" placeholder="Enter Car Model" required />
+        <input matInput formControlName="brand" placeholder="Enter Car Brand" required />
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="brand" placeholder="Enter Car Brand" required />
+        <input matInput formControlName="model" placeholder="Enter Car Model" required />
       </mat-form-field>
       <mat-form-field>
         <input matInput formControlName="carNumber" placeholder="Enter Car Number" required />
@@ -31,7 +31,7 @@
   <mat-card-actions>
 
     <button mat-raised-button color="primary" type="submit" form="form">
-      <mat-icon>done</mat-icon> Login
+      <mat-icon>done</mat-icon> Submit
     </button>
   </mat-card-actions>
 </mat-card>

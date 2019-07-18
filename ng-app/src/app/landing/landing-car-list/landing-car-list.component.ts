@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class LandingCarListComponent implements OnInit {
   cols = 4;
   smallSize = false;
+  cars = JSON.parse(localStorage.getItem('cars'));
   constructor() { }
 
   ngOnInit() {
